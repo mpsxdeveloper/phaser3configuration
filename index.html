@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+    <title>Phaser3</title>
+</head>
+
+<body>
+
+    <script>
+        var config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 200 }
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create
+            }
+        };
+    
+        var game = new Phaser.Game(config);
+    
+        function preload ()
+        {
+            this.load.image('background', 'assets/background.png');
+            this.load.image('circle', 'assets/circle.png');            
+            this.load.image('particle', 'assets/particle.png');
+        }
+    
+        function create ()
+        {
+            
+            this.add.image(400, 300, 'background');
+            var particles = this.add.particles('particle');
+            var emitter = particles.createEmitter({
+                speed: 90,
+                scale: { start: 1, end: 0 },
+                blendMode: 'MULTIPLY'
+            });
+    
+            var circle = this.physics.add.image(400, 200, 'circle');    
+    
+            circle.setVelocity(300, 300);
+            circle.setBounce(1, 1);
+            circle.setCollideWorldBounds(true);
+    
+            emitter.startFollow(circle);
+        }
+    </script>
+
+</body>
+
+</html>
